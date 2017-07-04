@@ -72,6 +72,10 @@ install_mariadb() {
     # create random password
     rootpasswd=$(openssl rand -base64 12)
     export DEBIAN_FRONTEND="noninteractive"
+	sudo apt-get install software-properties-common
+	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+	sudo add-apt-repository 'deb [arch=amd64,i386] http://ftp.utexas.edu/mariadb/repo/10.2/ubuntu yakkety main'
+	sudo apt update
     sudo aptitude -y install mariadb-server
     
     # adding user to group, creating dir structure, setting permissions
@@ -124,8 +128,8 @@ pterodactyl() {
     output "Install Pterodactyl-Panel."
     # Installing the Panel
     cd /var/www/pterodactyl/html
-    curl -Lo v0.5.7.tar.gz https://github.com/Pterodactyl/Panel/archive/v0.5.7.tar.gz
-    tar --strip-components=1 -xzvf v0.5.7.tar.gz
+    curl -Lo v0.5.7.tar.gz https://github.com/Pterodactyl/Panel/releases/download/v0.6.4/v0.6.4.tar.gz
+    tar --strip-components=1 -xzvf v0.6.4.tar.gz
     sudo chmod -R 777 storage/* bootstrap/cache
     curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
     composer setup
